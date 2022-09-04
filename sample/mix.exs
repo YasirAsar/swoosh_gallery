@@ -9,6 +9,7 @@ defmodule Sample.MixProject do
       elixirc_paths: elixirc_paths(Mix.env()),
       compilers: Mix.compilers(),
       start_permanent: Mix.env() == :prod,
+      dialyzer: dialyzer(),
       aliases: aliases(),
       deps: deps()
     ]
@@ -36,7 +37,8 @@ defmodule Sample.MixProject do
       {:phoenix_html, "~> 3.0"},
       {:phoenix_swoosh, "~> 1.0"},
       {:jason, "~> 1.2"},
-      {:plug_cowboy, "~> 2.5"}
+      {:plug_cowboy, "~> 2.5"},
+      {:dialyxir, "~> 1.1.0", only: [:dev, :test], runtime: false}
     ]
   end
 
@@ -49,6 +51,14 @@ defmodule Sample.MixProject do
   defp aliases do
     [
       setup: ["deps.get"]
+    ]
+  end
+
+  defp dialyzer do
+    [
+      plt_add_apps: [:mix],
+      plt_file:
+        {:no_warn, ".dialyzer/elixir-#{System.version()}-erlang-otp-#{System.otp_release()}.plt"}
     ]
   end
 end
